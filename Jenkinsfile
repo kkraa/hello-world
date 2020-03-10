@@ -10,7 +10,7 @@ pipeline {
              """    
              }
              }
-            stage('Test') {
+            stage('Run') {
             steps {
              bat """
              set TESTDIR=C:/Users/%UID%/CTMAPI/202-convert-csv2json-using-python/
@@ -18,5 +18,13 @@ pipeline {
              """
              }
              } 
-    }
+            stage('Deploy') {
+            steps {
+             bat """
+             set TESTDIR=C:/Users/%UID%/CTMAPI/202-convert-csv2json-using-python/
+             ctm env set PROD && ctm deploy %TESTDIR%/output_training.json %TESTDIR%/DeployDesc_Test.json -e PROD
+             """
+             }
+             } 
+}
 }
