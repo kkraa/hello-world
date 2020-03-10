@@ -14,7 +14,7 @@ pipeline {
             steps {
              bat """
              set TESTDIR=C:/Users/%UID%/CTMAPI/202-convert-csv2json-using-python/
-             ctm session login 
+             ctm run %TESTDIR%/output_training.json -e TRAINING
              """
              }
              } 
