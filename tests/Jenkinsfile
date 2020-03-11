@@ -2,6 +2,11 @@ pipeline {
     agent any
     stages {
             stage('Build') {
+                when {
+                expression {
+                    return env.BRANCH_NAME != 'master';
+                }
+            }              
             environment {
                 CONTROLM_CREDS = credentials('controlm-trainingserver-creds')
                 ENDPOINT = 'https://cmemtrn:8443/automation-api'   
