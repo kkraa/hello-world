@@ -8,7 +8,6 @@ pipeline {
                 }
             }              
             environment {
-                CONTROLM_CREDS = credentials('controlm-trainingserver-creds')
                 ENDPOINT = 'https://cmemtrn:8443/automation-api'   
             }
             steps {
