@@ -2,21 +2,25 @@ pipeline {
     agent any
     stages {
             stage('Build') {
+            environment {
+                CONTROLM_CREDS = credentials('controlm-trainingserver-creds')
+                ENDPOINT = 'https://cmemtrn:8443/automation-api'   
+            }
             steps {
-             bat """
-              set TESTDIR=C:/Users/%UID%/CTMAPI/202-convert-csv2json-using-python/
-              PATH=%PATH%;%CTM_PATH%
-              ctm env set TRAINING && ctm build %TESTDIR%/output_training.json -e TRAINING 
-             """    
-             }
-             }
-            stage('Test') {
-            steps {
-             bat """
-             set TESTDIR=C:/Users/%UID%/CTMAPI/202-convert-csv2json-using-python/
-             ctm session login 
-             """
-             }
-             } 
+                sh '''
+                username=$CONTROLM_CREDS_USR
+                password=$CONTROLM_CREDS_PSW
+
+                # Login
+                login=$(curl -k -s -H "Content-Type: application/json" -X POST -d \\{\\"username\\":\\"$username\\",\\"password\\":\\"$password\\"\\} "$ENDPOINT/session/login" )
+                token=$(echo ${login##*token\\" : \\"} | cut -d '"' -f 1)
+
+                # Build
+                curl -k -s -H "Authorization: Bearer $token" -X POST -F "definitionsFile=@ctmjobs/MFT-conn-profiles.json" "$ENDPOINT/build"
+                curl -k -s -H "Authorization: Bearer $token" -X POST -F "definitionsFile=@ctmjobs/jobs.json" "$ENDPOINT/build"
+                curl -k -s -H "Authorization: Bearer $token" -X POST "$ENDPOINT/session/logout"
+                '''
+            }
+        }
     }
 }
