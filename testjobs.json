@@ -1,8 +1,8 @@
 {
-    "DTOUT-GCP-JENKINS-GIT-PIPELINE": {
+    "DTOUT-GCP-GITHUB-JENKINS-PIPELINE": {
         "Type": "Folder",
         "ControlmServer": "CTMSVTRN",
-        "OrderMethod": "None",
+        "OrderMethod": "Manual",
         "ActiveRetentionPolicy": "CleanEndedOK",
         "Application": "GCP-TEST",
         "SubApplication": "GCP-TEST",
