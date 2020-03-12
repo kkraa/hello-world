@@ -1,0 +1,89 @@
+{
+    "DTOUT-GCP-GITHUB-JENKINS-PIPELINE": {
+        "Type": "Folder",
+        "ControlmServer": "CTMSVTRN",
+        "OrderMethod": "Manual",
+        "ActiveRetentionPolicy": "CleanEndedOK",
+        "Application": "GCP-TEST",
+        "SubApplication": "GCP-TEST",
+        "GCP-TEST1": {
+            "Type": "Job:Command",
+            "Command": "date",
+            "RunAs": "ctmsvtrn",
+            "Description": "do something",
+            "Host": "ctmsvtrn",
+            "Application": "GCP-TEST",
+            "SubApplication": "GCP-TEST",
+            "DaysKeepActive": "5",
+            "eventsToAdd": {
+                "Type": "AddEvents",
+                "Events": [
+                    {
+                        "Event": "DTOUT-GCP-TEST1-TO-DTOUT-GCP-TEST2"
+                    }
+                ]
+            }
+        },
+        "GCP-TEST2": {
+            "Type": "Job:EmbeddedScript",
+            "Script": "#!/bin/bash\\n# This is my test embedded script\\n\\npwd\\nls -altr",
+            "FileName": "MyScript_Tempfile.bash",
+            "RunAs": "ctmsvtrn",
+            "Description": "do something",
+            "Host": "ctmsvtrn",
+            "Application": "GCP-TEST",
+            "SubApplication": "GCP-TEST",
+            "DaysKeepActive": "5",
+            "eventsToWaitFor": {
+                "Type": "WaitForEvents",
+                "Events": [
+                    {
+                        "Event": "DTOUT-GCP-TEST1-TO-DTOUT-GCP-TEST2"
+                    }
+                ]
+            },
+            "eventsToDelete": {
+                "Type": "DeleteEvents",
+                "Events": [
+                    {
+                        "Event": "DTOUT-GCP-TEST1-TO-DTOUT-GCP-TEST2"
+                    }
+                ]
+            },
+            "eventsToAdd": {
+                "Type": "AddEvents",
+                "Events": [
+                    {
+                        "Event": "DTOUT-GCP-TEST2-TO-DTOUT-GCP-TEST3"
+                    }
+                ]
+            }
+        },
+        "GCP-TEST3": {
+            "Type": "Job:Command",
+            "Command": "echo Test;ls",
+            "RunAs": "ctmsvtrn",
+            "Description": "do something",
+            "Host": "ctmsvtrn",
+            "Application": "GCP-TEST",
+            "SubApplication": "GCP-TEST",
+            "DaysKeepActive": "5",
+            "eventsToWaitFor": {
+                "Type": "WaitForEvents",
+                "Events": [
+                    {
+                        "Event": "DTOUT-GCP-TEST2-TO-DTOUT-GCP-TEST3"
+                    }
+                ]
+            },
+            "eventsToDelete": {
+                "Type": "DeleteEvents",
+                "Events": [
+                    {
+                        "Event": "DTOUT-GCP-TEST2-TO-DTOUT-GCP-TEST3"
+                    }
+                ]
+            }
+        }
+    }
+}
