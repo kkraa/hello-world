@@ -25,10 +25,10 @@
             }
         },
         "GCP-TEST2": {
-            "xType": "Job:EmbeddedScript",
+            "Type": "Job:EmbeddedScript",
             "Script": "#!/bin/bash\\n# This is my test embedded script\\n\\npwd\\nls -altr",
             "FileName": "MyScript_Tempfile.bash",
-            "xRunAs": "ctmsvtrn",
+            "RunAs": "ctmsvtrn",
             "Description": "do something",
             "Host": "ctmsvtrn",
             "Application": "GCP-TEST",
