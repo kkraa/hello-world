@@ -37,7 +37,7 @@ pipeline {
                 # execute all .sh scripts in the tests directory
                 for f in *.sh
                 do
-                bash "$f" -H || exit $?  # execute successfully or exit
+                ./ "$f" -H || exit $?  # execute successfully or exit
                 done
                 '''
              }
