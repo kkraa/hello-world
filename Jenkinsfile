@@ -1,15 +1,12 @@
 pipeline {
     agent any
     stages {
-            stage('Build') {
+         stage('Build') {
                 when {
                 expression {
                     return env.BRANCH_NAME != 'master';
                 }
             }              
-            environment {
-                ENDPOINT = 'https://cmemtrn:8443/automation-api'   
-            }
             steps {
                 sh '''
                 username=$CONTROLM_CREDS_USR
@@ -19,9 +16,29 @@ pipeline {
                 token=$(echo ${login##*token\\" : \\"} | cut -d '"' -f 1)
                 # Build
                 curl -k -s -H "Authorization: Bearer $token" -X POST -F "definitionsFile=@testjobs.json" "$ENDPOINT/build"
-                curl -k -s -H "Authorization: Bearer $token" -X POST -F "definitionsFile=@testjobs.json" "$ENDPOINT/deploy"
                 curl -k -s -H "Authorization: Bearer $token" -X POST "$ENDPOINT/session/logout"
                 '''
+            }
+        }
+        stage('Test') {
+            when {
+            expression {
+                return env.BRANCH_NAME != 'master';
+                }
+            }
+            environment {
+                ENDPOINT ='https://cmemtrn:8443/automation-api'
+            }
+            steps {
+                sh '''
+                # execute all .sh scripts in the tests directory
+                for f in *.sh
+                do
+                bash "$f" -H || exit $?  # execute successfully or exit
+                done
+                '''
+            }
+        }  
             }
         }
     }
