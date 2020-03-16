@@ -1,4 +1,4 @@
-!/bin/bash
+!/usr/bin/bash
 endpoint=$ENDPOINT
 username=$CONTROLM_CREDS_USR
 password=$CONTROLM_CREDS_PSW
