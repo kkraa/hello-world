@@ -1,10 +1,12 @@
 pipeline {
     agent any
     stages {
-        stage('Build') {
-            environment {
-                ENDPOINT = 'https://cmemtrn:8443/automation-api'
-            }
+         stage('Build') {
+                when {
+                expression {
+                    return env.BRANCH_NAME != 'master';
+                }
+            }              
             steps {
                 sh '''
                 username=$CONTROLM_CREDS_USR
