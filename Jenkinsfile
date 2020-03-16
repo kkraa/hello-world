@@ -37,9 +37,7 @@ pipeline {
                 bash "$f" -H || exit $?  # execute successfully or exit
                 done
                 '''
-            }
-        }  
-            }
+             }
         }
     }
 }
