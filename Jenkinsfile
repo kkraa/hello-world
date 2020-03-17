@@ -65,9 +65,7 @@ pipeline {
                 curl -k -s -H "Authorization: Bearer $token" -X POST -F "definitionsFile=@testjobs.json" "$ENDPOINT/run"
                 curl -k -s -H "Authorization: Bearer $token" -X POST "$ENDPOINT/session/logout"
                 '''             
-              }  
-                 }
-             }
-        }
+           }
+        }     
     }
 }
