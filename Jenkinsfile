@@ -34,11 +34,12 @@ pipeline {
             }
             steps {
                 sh '''
-                # execute all .sh scripts in the tests directory
-                for f in *.sh
-                do
-                sh "$f" -H || exit $?  # execute successfully or exit
-                done
+                # Login
+                login=$(curl -k -s -H "Content-Type: application/json" -X POST -d \\{\\"username\\":\\"$username\\",\\"password\\":\\"$password\\"\\} "$ENDPOINT/session/login" )
+                token=$(echo ${login##*token\\" : \\"} | cut -d '"' -f 1)
+                # Deploy
+                curl -k -s -H "Authorization: Bearer $token" -X POST -F "definitionsFile=@testjobs.json" "$ENDPOINT/deploy"
+                curl -k -s -H "Authorization: Bearer $token" -X POST "$ENDPOINT/session/logout"
                 '''
              }
         }
