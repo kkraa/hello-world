@@ -59,7 +59,7 @@
                 ]
             }
         },
-        "GCP-TEST3": {
+        "GCP-TEST4": {
             "Type": "Job:Command",
             "Command": "echo Test;ls",
             "RunAs": "ctmsvtrn",
