@@ -61,7 +61,7 @@
         },
         "GCP-TESTD": {
             "Type": "Job:Command",
-            "Command": "echo Test;ls",
+            "Command": "echo Test;lsthereisnodata",
             "RunAs": "ctmsvtrn",
             "Description": "do something",
             "Host": "ctmsvtrn",
